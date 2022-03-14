@@ -6,5 +6,20 @@ class Api::V1::BooksController < ApplicationController
 		@books = Book.all
     	render json: @books
 	end
+
+	def create
+		@book = Book.create(book_params)
+		if @book.valid?
+			render json: {book: @book}	
+		else
+			render json: {error: "Something went wrong..."}
+		end
+	end
+
+	private
+
+	def book_params
+		params.permit(:name, :description, :image)
+	end
         
 end
